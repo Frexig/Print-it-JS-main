@@ -12,7 +12,7 @@ const slides = [
 		"tagLine":"Grand choix de couleurs <span>de CMJN aux pantones</span>"
 	},
 	{
-		"image":"slide4.png",
+		"image":"slide4.jpg",
 		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ]
@@ -20,26 +20,32 @@ const slides = [
 let arrow_left = document.getElementById("arrow_left")
 arrow_left.addEventListener("click", () => { 
  console.log("J'ai cliqué sur la flèche left")
+ previousSlide();
+});
 
- if  (currentSlideIndex === 0) {
-        currentSlideIndex = slides.length - 1; 
-    } else {
-        currentSlideIndex--;
-    }
-    goToSlide(currentSlideIndex);
-})
+ function previousSlide() {
+	if (currentSlideIndex === 0) {
+		currentSlideIndex = slides.length - 1;
+	} else {
+		currentSlideIndex--;
+	}
+	goToSlide(currentSlideIndex);
+}
 
 let arrow_right = document.getElementById("arrow_right")
 arrow_right.addEventListener("click", () => { 
  console.log("J'ai cliqué sur la flèche right")
+ nextSlide();
+});
 
-  if (currentSlideIndex === slides.length - 1) {
-        currentSlideIndex = 0; 
-    } else {
-        currentSlideIndex++;
-    }
-    goToSlide(currentSlideIndex);
-})
+  function nextSlide() {
+	if (currentSlideIndex === slides.length - 1) {
+		currentSlideIndex = 0;
+	} else {
+		currentSlideIndex++;
+	}
+	goToSlide(currentSlideIndex);
+  }
 
 const nombredeslides = slides.length
 
@@ -53,14 +59,14 @@ const dotsContainer = banner.querySelector(".dots");
 
 slides.forEach((slide, index) => {
 	const img = document.createElement("img");
-	img.classList.add("banner-img");
+	img.classList.add("banner-img", "banner-img-dynamic");
 	img.src = `./assets/images/slideshow/${slide.image}`;
 	img.style.display = index === 0 ? "block" : "none";
 	img.alt = `slide ${index + 1}`;
 	banner.insertBefore(img, tagLineElement); 
 });
 
-const bannerImages = document.querySelectorAll(".banner-img");
+const bannerImages = document.querySelectorAll(".banner-img-dynamic");
 
 function initializeSlides() {
 	bannerImages.forEach((img, index) => {
@@ -81,6 +87,8 @@ function createDots() {
 }
 
 function goToSlide(index) {
+	const previousIndex = currentSlideIndex;
+
 	bannerImages[currentSlideIndex].style.display = "none";
 	dotsContainer.children[currentSlideIndex].classList.remove("dot_selected");
 
